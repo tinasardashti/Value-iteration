@@ -1,0 +1,20 @@
+# Python cache files
+__pycache__/
+*.pyc
+
+# virtual environment
+env/
+venv/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+
+# VS Code / editor settings
+.vscode/
+
+# test cache
+.pytest_cache/
