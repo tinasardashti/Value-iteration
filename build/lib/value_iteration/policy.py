@@ -1,32 +1,33 @@
 def extract_policy(states, actions, transitions, rewards, V, gamma=0.9):
 
+    #this will store the best action for each state
     policy = {}
 
-    # go through each state
+    #go through each state
     for s in states:
 
-        # terminal states have no action
-        if s not in actions or len(actions[s]) == 0:
-            policy[s] = None
+        #skip terminal states (no actions)
+        if s not in actions:
             continue
 
         best_action = None
         best_value = float("-inf")
 
-        # check all possible actions
+        #Try all possible actions in this state
         for a in actions[s]:
             total = 0
 
-            # compute expected value using already computed V
+            #compute expected value for this action
             for prob, s_next in transitions[(s, a)]:
                 r = rewards[(s, a, s_next)]
                 total += prob * (r + gamma * V[s_next])
 
-            # keep track of the best action
+            #keep track of the best action
             if total > best_value:
                 best_value = total
                 best_action = a
 
+        #store best action for this state
         policy[s] = best_action
 
     return policy

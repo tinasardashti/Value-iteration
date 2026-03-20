@@ -1,47 +1,62 @@
+#value iteration algorithm
+
 def value_iteration(states, actions, transitions, rewards, gamma=0.9, theta=1e-6):
 
-    #assigning value 0 to all states
+    # initialize value function (start with 0 for all states)
     V = {s: 0 for s in states}
 
-    #I keep updating values until they stop changing
     while True:
-        delta = 0  #this will track the biggest change in this iteration
+        delta = 0
 
-        #go through each state one by one
         for s in states:
 
-            #skip terminal states (no actions OR empty actions)
+            # skip terminal states (no actions)
             if s not in actions or len(actions[s]) == 0:
                 continue
 
-            #store the old value so we can check how much it changes
-            v = V[s]
+            best_value = float("-inf")
 
-            #I will calculate the value for each possible action
-            action_values = []
-
-            #We try all actions available in this state
+            # check all actions
             for a in actions[s]:
                 total = 0
 
-                # for each possible next state, compute expected value
                 for prob, s_next in transitions[(s, a)]:
                     r = rewards[(s, a, s_next)]
-
-                    # Bellman update: reward + discounted future value
                     total += prob * (r + gamma * V[s_next])
 
-                action_values.append(total)
+                best_value = max(best_value, total)
 
-            #the best action (maximum value)
-            V[s] = max(action_values)
+            # update difference
+            delta = max(delta, abs(V[s] - best_value))
+            V[s] = best_value
 
-            #update delta (how much the value changed)
-            delta = max(delta, abs(v - V[s]))
-
-        #If values are no longer changing much, we stop
+        # stop when values converge
         if delta < theta:
             break
 
-    return V
+    # after values → extract policy
+    policy = {}
+
+    for s in states:
+        if s not in actions or len(actions[s]) == 0:
+            policy[s] = None
+            continue
+
+        best_action = None
+        best_value = float("-inf")
+
+        for a in actions[s]:
+            total = 0
+
+            for prob, s_next in transitions[(s, a)]:
+                r = rewards[(s, a, s_next)]
+                total += prob * (r + gamma * V[s_next])
+
+            if total > best_value:
+                best_value = total
+                best_action = a
+
+        policy[s] = best_action
+
+    return V, policy
 

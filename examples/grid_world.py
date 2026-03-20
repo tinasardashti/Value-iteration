@@ -1,51 +1,65 @@
 from value_iteration.algorithm import value_iteration
 from value_iteration.policy import extract_policy
 
-# Define states
-states = ["TL", "TR", "BL", "BR"]
 
-#define actions available in each state
-actions = {
-    "TL": ["R", "D"],
-    "TR": ["L", "D"],
-    "BL": ["R", "U"]
-    # BR is terminal, so no actions
-}
+def run_grid_world():
+    print("Running Grid World Example...\n")
 
-#Define transition probabilities
-transitions = {
-    ("TL","R"): [(0.9,"TR"), (0.1,"BL")],
-    ("TL","D"): [(0.9,"BL"), (0.1,"TR")],
+    # define states
+    states = ["TL", "TR", "BL", "BR"]
 
-    ("TR","L"): [(0.9,"TL"), (0.1,"BR")],
-    ("TR","D"): [(0.8,"BR"), (0.2,"TL")],
+    # define available actions (BR is terminal → no actions)
+    actions = {
+        "TL": ["R", "D"],
+        "TR": ["L", "D"],
+        "BL": ["R", "U"]
+    }
 
-    ("BL","R"): [(0.9,"BR"), (0.1,"TL")],
-    ("BL","U"): [(0.8,"TL"), (0.2,"BR")]
-}
+    # define transition probabilities
+    transitions = {
+        ("TL","R"): [(0.9,"TR"), (0.1,"BL")],
+        ("TL","D"): [(0.9,"BL"), (0.1,"TR")],
 
-#Define rewards
-rewards = {
-    ("TL","R","TR"): -1,
-    ("TL","R","BL"): -2,
-    ("TL","D","BL"): -2,
-    ("TL","D","TR"): -1,
+        ("TR","L"): [(0.9,"TL"), (0.1,"BR")],
+        ("TR","D"): [(0.8,"BR"), (0.2,"TL")],
 
-    ("TR","L","TL"): -1.5,
-    ("TR","L","BR"): 10,
-    ("TR","D","BR"): 15,
-    ("TR","D","TL"): -1,
+        ("BL","R"): [(0.9,"BR"), (0.1,"TL")],
+        ("BL","U"): [(0.8,"TL"), (0.2,"BR")]
+    }
 
-    ("BL","R","BR"): 20,
-    ("BL","R","TL"): -2.5,
-    ("BL","U","TL"): -0.5,
-    ("BL","U","BR"): 5
-}
+    # define rewards
+    rewards = {
+        ("TL","R","TR"): -1,
+        ("TL","R","BL"): -2,
+        ("TL","D","BL"): -2,
+        ("TL","D","TR"): -1,
 
-V = value_iteration(states, actions, transitions, rewards)
+        ("TR","L","TL"): -1.5,
+        ("TR","L","BR"): 10,
+        ("TR","D","BR"): 15,
+        ("TR","D","TL"): -1,
 
-#extract policy
-policy = extract_policy(states, actions, transitions, rewards, V)
+        ("BL","R","BR"): 20,
+        ("BL","R","TL"): -2.5,
+        ("BL","U","TL"): -0.5,
+        ("BL","U","BR"): 5
+    }
 
-print("Optimal Values:", V)
-print("Optimal Policy:", policy)
+    # compute value function
+    V = value_iteration(states, actions, transitions, rewards)
+
+    # extract optimal policy
+    policy = extract_policy(states, actions, transitions, rewards, V)
+
+    # print results nicely
+    print("Optimal Values:")
+    for s in states:
+        print(f"{s}: {V[s]:.2f}")
+
+    print("\nOptimal Policy:")
+    for s in states:
+        print(f"{s}: {policy.get(s)}")
+
+
+if __name__ == "__main__":
+    run_grid_world()
