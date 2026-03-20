@@ -83,21 +83,26 @@ procedure Value_iteration_custom(S, A, P, R, gamma, theta):
     
     return V, policy
 ```
-## Differences
+## 3. Differences
 
 This implementation introduces several differences from the textbook pseudocode to improve clarity and practical usability:
 
-    In-Place (Asynchronous) Updates:
+
+In-Place (Asynchronous) Updates:
     The textbook version uses two separate value functions ($V_k$ and $V_{k-1}$) and updates them synchronously. In contrast, this implementation updates a single value function $V$ directly in-place. This allows newly computed values to be reused immediately and simplifies the implementation.
 
-    Explicit Convergence Criterion:
+
+Explicit Convergence Criterion:
     The textbook leaves the stopping condition unspecified ("until termination"). This implementation defines convergence explicitly using a threshold $\theta$, stopping when the maximum change in values (delta) becomes smaller than $\theta$.
 
-    Reward Function Structure:
+
+Reward Function Structure:
     The textbook defines rewards as $R(s,a)$, depending only on the current state and action. This implementation uses $R(s,a,s')$, allowing rewards to depend on the resulting next state. This is particularly useful for modelling environments such as Grid World.
 
-    Handling of Terminal States:
+
+Handling of Terminal States:
     Terminal states are handled explicitly by checking whether a state has available actions. If not, the state is skipped during value updates and assigned a policy of None.
 
-    Separate Policy Extraction:
+
+Separate Policy Extraction:
     Unlike some optimized approaches, this implementation computes the policy after the value function has converged, using a separate loop. This keeps the structure clear and closely aligned with the theoretical formulation.
