@@ -1,6 +1,29 @@
 #value iteration algorithm
 
 def value_iteration(states, actions, transitions, rewards, gamma=0.9, theta=1e-6):
+    """
+    Value Iteration algorithm for solving a Markov Decision Process.
+
+    Parameters:
+    states : iterable
+        Set of all states.
+    actions : dict
+        Mapping from state to available actions.
+    transitions : dict
+        Mapping (s, a) -> list of (probability, next_state).
+    rewards : dict
+        Mapping (s, a, s') -> reward.
+    gamma : float
+        Discount factor.
+    theta : float
+        Convergence threshold.
+
+    Returns:
+    V : dict
+        Optimal value function.
+    policy : dict
+        Optimal policy mapping states to actions.
+    """
 
     # initialize value function (start with 0 for all states)
     V = {s: 0 for s in states}
@@ -34,7 +57,7 @@ def value_iteration(states, actions, transitions, rewards, gamma=0.9, theta=1e-6
         if delta < theta:
             break
 
-    # after values → extract policy
+    # after values, extract policy
     policy = {}
 
     for s in states:
