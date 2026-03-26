@@ -50,8 +50,13 @@ python -m venv env
 source env/bin/activate
 python -m pip install .
 ```
-## Running the Code
 
+```python
+from value_iteration.algorithm import value_iteration
+from value_iteration.policy import extract_policy
+```
+
+## Running the Code
 After installation, you can run the provided examples:
 
 ```bash
