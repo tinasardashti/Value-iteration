@@ -3,19 +3,15 @@ from value_iteration.policy import extract_policy
 
 
 def run_grid_world():
-    print("Running Grid World Example...\n")
 
-    # define states
     states = ["TL", "TR", "BL", "BR"]
 
-    # define available actions (BR is terminal → no actions)
     actions = {
         "TL": ["R", "D"],
         "TR": ["L", "D"],
         "BL": ["R", "U"]
     }
 
-    # define transition probabilities
     transitions = {
         ("TL","R"): [(0.9,"TR"), (0.1,"BL")],
         ("TL","D"): [(0.9,"BL"), (0.1,"TR")],
@@ -27,7 +23,6 @@ def run_grid_world():
         ("BL","U"): [(0.8,"TL"), (0.2,"BR")]
     }
 
-    # define rewards
     rewards = {
         ("TL","R","TR"): -1,
         ("TL","R","BL"): -2,
@@ -45,21 +40,18 @@ def run_grid_world():
         ("BL","U","BR"): 5
     }
 
-    # compute value function
     V = value_iteration(states, actions, transitions, rewards)
-
-    # extract optimal policy
     policy = extract_policy(states, actions, transitions, rewards, V)
 
-    # print results nicely
-    print("Optimal Values:")
+    print("\nValues:")
     for s in states:
         print(f"{s}: {V[s]:.2f}")
 
-    print("\nOptimal Policy:")
+    print("\nPolicy:")
     for s in states:
         print(f"{s}: {policy.get(s)}")
 
 
 if __name__ == "__main__":
     run_grid_world()
+

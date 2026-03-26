@@ -19,6 +19,17 @@ Value iteration is a dynamic programming method that computes the optimal value 
 
 This implementation is designed to be simple, clear, and reusable for different MDP problems, including stochastic environments such as Grid World.
 
+## Design Choices
+
+The implementation separates:
+
+- Value function computation (`value_iteration`)
+- Policy extraction (`extract_policy`)
+
+This reflects the theoretical structure of value iteration, where the optimal value function is computed first, and the optimal policy is derived afterwards.
+
+This design improves modularity, clarity, and reusability, allowing the value function to be used independently of policy extraction.
+
 To learn more about MDPs and value iteration, see Sections [9.5](https://artint.info/2e/html2e/ArtInt2e.Ch9.S5.html) and [9.5.1](https://artint.info/2e/html2e/ArtInt2e.Ch9.S5.SS1.html) of *Artificial Intelligence: Foundations and Computational Agents (2nd Edition)*.
 
 **Key Features**
@@ -28,6 +39,7 @@ To learn more about MDPs and value iteration, see Sections [9.5](https://artint.
 - Includes unit tests for correctness  
 - Provides practical examples (Sam problem and Grid World)  
 - Designed for reproducibility and reuse  
+- Fully reproducible: all examples and tests can be rerun directly from the repository
 
 ## **Installation**
 
@@ -37,6 +49,14 @@ Create a virtual environment and install the package:
 python -m venv env
 source env/bin/activate
 python -m pip install .
+```
+## Running the Code
+
+After installation, you can run the provided examples:
+
+```bash
+python examples/sam_example.py
+python examples/grid_world.py
 ```
 
 ## **Example**
@@ -83,7 +103,7 @@ A stochastic Grid World problem is also implemented to demonstrate the algorithm
 
 States represent positions in a grid  
 Actions correspond to movements (up, down, left, right)  
-Transitions are probabilistic (slipping behaviour)  
+Transitions are probabilistic (to model uncertainty in movement)  
 
 The implementation is provided in:
 

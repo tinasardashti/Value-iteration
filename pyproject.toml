@@ -22,7 +22,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-dependencies = []
+dependencies = ["pytest"]
 
 [project.urls]
 homepage = "https://github.com/tinasardashti/value_iteration_project"

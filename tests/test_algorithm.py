@@ -3,9 +3,6 @@ from value_iteration.policy import extract_policy
 
 
 def test_basic_behavior():
-    """
-    simple test to check that the algorithm works on a small MDP
-    """
 
     states = ["A", "B"]
 
@@ -27,20 +24,12 @@ def test_basic_behavior():
     V = value_iteration(states, actions, transitions, rewards)
     policy = extract_policy(states, actions, transitions, rewards, V)
 
-    # value should be positive (moving is good)
     assert V["A"] > 0
-
-    # best action should be "move"
     assert policy["A"] == "move"
-
-    # terminal state has no action
     assert policy["B"] is None
 
 
 def test_sam_example():
-    """
-    test using Sam's example (stochastic case)
-    """
 
     states = ["healthy", "sick"]
 
@@ -70,17 +59,11 @@ def test_sam_example():
     V = value_iteration(states, actions, transitions, rewards)
     policy = extract_policy(states, actions, transitions, rewards, V)
 
-    # values should be numbers
     assert isinstance(V["healthy"], float)
-
-    # policy should choose valid actions
     assert policy["healthy"] in actions["healthy"]
 
 
 def test_gamma_zero():
-    """
-    when gamma = 0, only immediate rewards matter
-    """
 
     states = ["A"]
 
@@ -101,6 +84,6 @@ def test_gamma_zero():
     V = value_iteration(states, actions, transitions, rewards, gamma=0.0)
     policy = extract_policy(states, actions, transitions, rewards, V, gamma=0.0)
 
-    # should choose the highest immediate reward
     assert V["A"] == 5
     assert policy["A"] == "big"
+

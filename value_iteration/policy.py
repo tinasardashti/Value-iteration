@@ -1,11 +1,12 @@
 def extract_policy(states, actions, transitions, rewards, V, gamma=0.9):
+    """
+    Extract optimal policy from a value function.
+    """
 
     policy = {}
 
-    # go through each state
     for s in states:
 
-        # terminal states have no action
         if s not in actions or len(actions[s]) == 0:
             policy[s] = None
             continue
@@ -13,16 +14,13 @@ def extract_policy(states, actions, transitions, rewards, V, gamma=0.9):
         best_action = None
         best_value = float("-inf")
 
-        # check all possible actions
         for a in actions[s]:
             total = 0
 
-            # compute expected value using already computed V
             for prob, s_next in transitions[(s, a)]:
                 r = rewards[(s, a, s_next)]
                 total += prob * (r + gamma * V[s_next])
 
-            # keep track of the best action
             if total > best_value:
                 best_value = total
                 best_action = a
@@ -30,3 +28,4 @@ def extract_policy(states, actions, transitions, rewards, V, gamma=0.9):
         policy[s] = best_action
 
     return policy
+
